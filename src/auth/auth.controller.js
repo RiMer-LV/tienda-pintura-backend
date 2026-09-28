@@ -4,8 +4,8 @@ const OPCIONES_COOKIE = { httpOnly: true, secure: true, sameSite: "strict" };
 
 export async function register(req, res, next) {
   try {
-    const { nombre, email, contrasena } = req.body;
-    const resultado = await authService.registrar({ nombre, email, contrasena });
+    const { nombre, email, contrasena, telefono } = req.body;
+    const resultado = await authService.registrar({ nombre, email, contrasena, telefono });
     return res.status(201).json(resultado);
   } catch (error) {
     return next(error);

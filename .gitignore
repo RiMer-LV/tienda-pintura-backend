@@ -41,6 +41,12 @@ build/Release
 node_modules/
 uploads/*
 !uploads/.gitkeep
+!uploads/imagenes/
+!uploads/imagenes/.gitkeep
+!uploads/fichasTecnicas/
+!uploads/fichasTecnicas/.gitkeep
+!uploads/manuales/
+!uploads/manuales/.gitkeep
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)

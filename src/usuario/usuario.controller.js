@@ -1,15 +1,5 @@
 import * as usuarioService from "./usuario.service.js";
 
-export async function crearVisitante(req, res, next) {
-  try {
-    const { nombre, email, telefono } = req.body;
-    const resultado = await usuarioService.crearVisitante({ nombre, email, telefono });
-    return res.status(201).json(resultado);
-  } catch (error) {
-    return next(error);
-  }
-}
-
 export async function listarVisitantes(req, res, next) {
   try {
     return res.json(await usuarioService.listarVisitantes());

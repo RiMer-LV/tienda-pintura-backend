@@ -10,10 +10,10 @@ export async function buscarPorToken(token) {
   return filas[0] || null;
 }
 
-export async function crearUsuario({ nombre, email, contrasenaHash, tipoUsuario }) {
+export async function crearUsuario({ nombre, email, telefono, contrasenaHash, tipoUsuario }) {
   const [resultado] = await pool.query(
-    "INSERT INTO usuario (nombre, email, contrasenaHash, tipoUsuario) VALUES (?, ?, ?, ?)",
-    [nombre, email, contrasenaHash, tipoUsuario]
+    "INSERT INTO usuario (nombre, email, telefono, contrasenaHash, tipoUsuario) VALUES (?, ?, ?, ?, ?)",
+    [nombre, email, telefono || null, contrasenaHash, tipoUsuario]
   );
   return resultado.insertId;
 }

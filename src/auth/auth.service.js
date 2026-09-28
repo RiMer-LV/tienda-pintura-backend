@@ -8,7 +8,7 @@ import { generarToken, calcularExpiracion } from "../shared/token.helper.js";
 const SALT_ROUNDS = 10;
 const EXPIRACION_JWT = "1d";
 
-export async function registrar({ nombre, email, contrasena }) {
+export async function registrar({ nombre, email, contrasena, telefono }) {
   const usuarioExistente = await authRepository.buscarPorEmail(email);
 
   if (usuarioExistente) {
@@ -26,6 +26,7 @@ export async function registrar({ nombre, email, contrasena }) {
   await authRepository.crearUsuario({
     nombre,
     email,
+    telefono: telefono || null,
     contrasenaHash,
     tipoUsuario: TIPO_USUARIO.CLIENTE,
   });
