@@ -1,30 +1,20 @@
-import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import * as authRepository from "./auth.repository.js";
+import { TIPO_USUARIO } from "../constants/tipoUsuario.js";
+import { ErrorHttp } from "../shared/errorHttp.js";
+import { generarToken, calcularExpiracion } from "../shared/token.helper.js";
 
 const SALT_ROUNDS = 10;
-const EXPIRACION_TOKEN_MS = 24 * 60 * 60 * 1000; // 24 horas
 const EXPIRACION_JWT = "1d";
-
-class ErrorHttp extends Error {
-  constructor(statusCode, mensaje) {
-    super(mensaje);
-    this.statusCode = statusCode;
-  }
-}
-
-function generarTokenAleatorio() {
-  return crypto.randomBytes(32).toString("hex");
-}
 
 export async function registrar({ nombre, email, contrasena }) {
   const usuarioExistente = await authRepository.buscarPorEmail(email);
 
   if (usuarioExistente) {
-    if (usuarioExistente.tipoUsuario === "visitante") {
-      const token = generarTokenAleatorio();
-      const expiraToken = new Date(Date.now() + EXPIRACION_TOKEN_MS);
+    if (usuarioExistente.tipoUsuario === TIPO_USUARIO.VISITANTE) {
+      const token = generarToken();
+      const expiraToken = calcularExpiracion();
       await authRepository.actualizarToken(usuarioExistente.id, token, expiraToken);
       return { mensaje: "Revisa tu correo para completar el registro" };
     }
@@ -37,7 +27,7 @@ export async function registrar({ nombre, email, contrasena }) {
     nombre,
     email,
     contrasenaHash,
-    tipoUsuario: "cliente",
+    tipoUsuario: TIPO_USUARIO.CLIENTE,
   });
 
   return { mensaje: "Usuario registrado correctamente" };
@@ -83,9 +73,7 @@ export async function completarRegistro({ token, contrasena }) {
   const usuario = await verificarTokenRegistro(token);
 
   const contrasenaHash = await bcrypt.hash(contrasena, SALT_ROUNDS);
-  await authRepository.actualizarContrasena(usuario.id, contrasenaHash);
+  await authRepository.completarRegistroUsuario(usuario.id, contrasenaHash, TIPO_USUARIO.CLIENTE);
 
   return { mensaje: "Registro completado correctamente" };
 }
-
-export { ErrorHttp };

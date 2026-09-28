@@ -25,9 +25,9 @@ export async function actualizarToken(idUsuario, token, expiraToken) {
   );
 }
 
-export async function actualizarContrasena(idUsuario, contrasenaHash) {
+export async function completarRegistroUsuario(idUsuario, contrasenaHash, tipoUsuario) {
   await pool.query(
-    "UPDATE usuario SET contrasenaHash = ?, token = NULL, expiraToken = NULL WHERE id = ?",
-    [contrasenaHash, idUsuario]
+    "UPDATE usuario SET contrasenaHash = ?, tipoUsuario = ?, token = NULL, expiraToken = NULL WHERE id = ?",
+    [contrasenaHash, tipoUsuario, idUsuario]
   );
 }
