@@ -15,3 +15,17 @@ export function verificarAuth(req, res, next) {
     return res.status(401).json({ mensaje: "Token inválido o expirado" });
   }
 }
+
+export function autenticacionOpcional(req, res, next) {
+  const token = req.cookies?.token;
+
+  if (token) {
+    try {
+      req.usuario = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      // token inválido: se trata como visitante
+    }
+  }
+
+  next();
+}
