@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import * as authRepository from "./auth.repository.js";
-import { TIPO_USUARIO } from "../constants/tipoUsuario.js";
+import { tipoUsuario } from "../constants/tipoUsuario.js";
 import { ErrorHttp } from "../shared/errorHttp.js";
 import { generarToken, calcularExpiracion } from "../shared/token.helper.js";
 
@@ -12,7 +12,7 @@ export async function registrar({ nombre, email, contrasena, telefono }) {
   const usuarioExistente = await authRepository.buscarPorEmail(email);
 
   if (usuarioExistente) {
-    if (usuarioExistente.tipoUsuario === TIPO_USUARIO.VISITANTE) {
+    if (usuarioExistente.tipoUsuario === tipoUsuario.VISITANTE) {
       const token = generarToken();
       const expiraToken = calcularExpiracion();
       await authRepository.actualizarToken(usuarioExistente.id, token, expiraToken);
@@ -28,7 +28,7 @@ export async function registrar({ nombre, email, contrasena, telefono }) {
     email,
     telefono: telefono || null,
     contrasenaHash,
-    tipoUsuario: TIPO_USUARIO.CLIENTE,
+    tipoUsuario: tipoUsuario.CLIENTE,
   });
 
   return { mensaje: "Usuario registrado correctamente" };
@@ -74,7 +74,7 @@ export async function completarRegistro({ token, contrasena }) {
   const usuario = await verificarTokenRegistro(token);
 
   const contrasenaHash = await bcrypt.hash(contrasena, SALT_ROUNDS);
-  await authRepository.completarRegistroUsuario(usuario.id, contrasenaHash, TIPO_USUARIO.CLIENTE);
+  await authRepository.completarRegistroUsuario(usuario.id, contrasenaHash, tipoUsuario.CLIENTE);
 
   return { mensaje: "Registro completado correctamente" };
 }
