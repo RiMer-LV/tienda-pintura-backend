@@ -3,11 +3,11 @@ import * as productoController from "./producto.controller.js";
 import { verificarAuth } from "../middleware/auth.middleware.js";
 import { verificarRol } from "../middleware/role.middleware.js";
 import { uploadImagen } from "../middleware/upload.middleware.js";
-import { TIPO_USUARIO } from "../constants/tipoUsuario.js";
+import { tipoUsuario } from "../constants/tipoUsuario.js";
 
 const router = Router();
 
-const soloAdmin = verificarRol(TIPO_USUARIO.ADMIN);
+const soloAdmin = verificarRol(tipoUsuario.ADMIN);
 
 router.get("/", productoController.listar);
 router.get("/:id", productoController.obtenerPorId);

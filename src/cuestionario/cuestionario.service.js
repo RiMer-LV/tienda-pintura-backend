@@ -3,7 +3,7 @@ import * as usuarioRepository from "../usuario/usuario.repository.js";
 import * as productoRepository from "../producto/producto.repository.js";
 import { tipoSigPaso } from "../constants/tipoSigPaso.js";
 import { tipoCompletado } from "../constants/tipoCompletado.js";
-import { TIPO_USUARIO } from "../constants/tipoUsuario.js";
+import { tipoUsuario } from "../constants/tipoUsuario.js";
 import { ErrorHttp } from "../shared/errorHttp.js";
 
 const TIPOS_SIG_PASO = Object.values(tipoSigPaso);
@@ -251,7 +251,7 @@ async function resolverUsuarioVisitante(datosVisitante) {
     nombre,
     email,
     telefono,
-    tipoUsuario: TIPO_USUARIO.VISITANTE,
+    tipoUsuario: tipoUsuario.VISITANTE,
   });
 }
 

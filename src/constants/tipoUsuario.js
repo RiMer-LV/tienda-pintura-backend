@@ -1,4 +1,4 @@
-export const TIPO_USUARIO = {
+export const tipoUsuario = {
   ADMIN: "admin",
   CLIENTE: "cliente",
   VISITANTE: "visitante",

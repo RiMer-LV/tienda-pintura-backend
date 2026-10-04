@@ -2,11 +2,11 @@ import { Router } from "express";
 import * as usuarioController from "./usuario.controller.js";
 import { verificarAuth } from "../middleware/auth.middleware.js";
 import { verificarRol } from "../middleware/role.middleware.js";
-import { TIPO_USUARIO } from "../constants/tipoUsuario.js";
+import { tipoUsuario } from "../constants/tipoUsuario.js";
 
 const router = Router();
 
-const soloAdmin = verificarRol(TIPO_USUARIO.ADMIN);
+const soloAdmin = verificarRol(tipoUsuario.ADMIN);
 
 // Las rutas fijas van antes que /:id
 router.get("/visitantes", verificarAuth, soloAdmin, usuarioController.listarVisitantes);

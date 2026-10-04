@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import * as usuarioRepository from "./usuario.repository.js";
-import { TIPO_USUARIO } from "../constants/tipoUsuario.js";
+import { tipoUsuario } from "../constants/tipoUsuario.js";
 import { ErrorHttp } from "../shared/errorHttp.js";
 import { generarToken, calcularExpiracion } from "../shared/token.helper.js";
 
@@ -24,20 +24,20 @@ export async function crearVisitante({ nombre, email, telefono }) {
     nombre,
     email,
     telefono,
-    tipoUsuario: TIPO_USUARIO.VISITANTE,
+    tipoUsuario: tipoUsuario.VISITANTE,
   });
 
   return { id, mensaje: "Visitante creado correctamente" };
 }
 
 export async function listarVisitantes() {
-  return usuarioRepository.listarPorTipo(TIPO_USUARIO.VISITANTE);
+  return usuarioRepository.listarPorTipo(tipoUsuario.VISITANTE);
 }
 
 export async function enviarInvitacion(id) {
   const usuario = await usuarioRepository.buscarPorId(id);
 
-  if (!usuario || !usuario.activo || usuario.tipoUsuario !== TIPO_USUARIO.VISITANTE) {
+  if (!usuario || !usuario.activo || usuario.tipoUsuario !== tipoUsuario.VISITANTE) {
     throw new ErrorHttp(404, "Visitante no encontrado");
   }
 

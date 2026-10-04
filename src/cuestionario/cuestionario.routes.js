@@ -2,11 +2,11 @@ import { Router } from "express";
 import * as cuestionarioController from "./cuestionario.controller.js";
 import { verificarAuth, autenticacionOpcional } from "../middleware/auth.middleware.js";
 import { verificarRol } from "../middleware/role.middleware.js";
-import { TIPO_USUARIO } from "../constants/tipoUsuario.js";
+import { tipoUsuario } from "../constants/tipoUsuario.js";
 
 const router = Router();
 
-const admin = [verificarAuth, verificarRol(TIPO_USUARIO.ADMIN)];
+const admin = [verificarAuth, verificarRol(tipoUsuario.ADMIN)];
 
 // Públicas
 router.get("/pregunta/inicio", cuestionarioController.obtenerInicio);
